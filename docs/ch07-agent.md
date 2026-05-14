@@ -126,3 +126,47 @@ result = agent_executor.invoke({"input": "..."})
 5. 处理错误和超时
 
 > 💡 **注意**：虽然 AgentExecutor 仍然可用，但 LangChain 官方推荐使用 LangGraph 构建更灵活的 Agent。
+
+## 7.6 LangChain v1 的 create_agent
+
+在 LangChain v1 中，更推荐使用 `create_agent()` 创建 Agent：
+
+```python
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+
+model = ChatOpenAI(model="kimi-k2.6", temperature=0.2)
+agent = create_agent(
+    model=model,
+    tools=[search_weather, calculate],
+    system_prompt="你是一个可靠的企业助手。回答前先判断是否需要工具。",
+)
+```
+
+`create_agent()` 返回的不是早期的 `AgentExecutor`，而是一个基于 LangGraph 的可执行图。它天然支持：
+
+- `checkpointer`：保存会话状态
+- `interrupt_before` / `interrupt_after`：在关键节点暂停
+- `response_format`：结构化输出
+- `middleware`：在模型调用前后注入工程逻辑
+- `store`：长期记忆或跨线程数据存储
+
+示例代码：
+
+```bash
+uv run python src/ch07_agent/04_create_agent_v1.py
+```
+
+## 7.7 AgentExecutor vs create_agent vs LangGraph
+
+| 方案 | 适合场景 | 特点 |
+|------|----------|------|
+| AgentExecutor | 理解传统 ReAct 和旧项目维护 | 简单，但生产控制力较弱 |
+| create_agent | 快速构建现代工具调用 Agent | 底层基于 LangGraph，默认更现代 |
+| 手写 LangGraph | 企业级复杂流程 | 最可控，适合审批、恢复、多 Agent、复杂状态 |
+
+学习建议：
+
+1. 用 `AgentExecutor` 理解 ReAct 循环原理。
+2. 用 `create_agent` 写简单现代 Agent。
+3. 用 LangGraph 承接真正复杂的企业级 Agent。

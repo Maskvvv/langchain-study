@@ -50,7 +50,7 @@ def demo_prompt_template():
 
 def demo_chat_prompt_template():
     """演示 ChatPromptTemplate（聊天消息模板）"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
 
     # ========================================
     # 方式一：from_messages() — 最常用的创建方式
@@ -134,7 +134,7 @@ def demo_messages_placeholder():
 
 def demo_lcel_chain():
     """演示使用 LCEL 将 Prompt + Model 串联"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
 
     # ========================================
     # LCEL（LangChain Expression Language）

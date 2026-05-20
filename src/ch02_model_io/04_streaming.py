@@ -24,7 +24,19 @@ load_dotenv()
 
 def demo_basic_streaming():
     """演示基础流式输出"""
-    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
+    # ========================================
+    # 流式输出需要设置 streaming=True
+    # ========================================
+    # 某些 API 提供商（如 Kimi/DeepSeek 等）需要在 ChatOpenAI 中
+    # 显式启用 streaming=True，否则 stream() 方法可能无法正常工作
+    # 同时设置 timeout 避免网络问题导致无限等待
+    llm = ChatOpenAI(
+        model=os.getenv("LLM_MODEL"),
+        temperature=float(os.getenv("LLM_TEMPERATURE")),
+        streaming=True,
+        timeout=30,
+        max_retries=2,
+    )
 
     # ========================================
     # 流式输出的原理
@@ -60,7 +72,13 @@ def demo_basic_streaming():
 
 def demo_streaming_with_callback():
     """演示流式输出的底层细节"""
-    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
+    llm = ChatOpenAI(
+        model=os.getenv("LLM_MODEL"),
+        temperature=float(os.getenv("LLM_TEMPERATURE")),
+        # streaming=True,
+        # timeout=30,
+        # max_retries=2,
+    )
 
     # ========================================
     # 直接对 LLM 使用 stream()
@@ -80,7 +98,13 @@ def demo_streaming_with_callback():
 
 def demo_invoke_vs_stream():
     """对比 invoke 和 stream 的区别"""
-    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
+    llm = ChatOpenAI(
+        model=os.getenv("LLM_MODEL"),
+        temperature=float(os.getenv("LLM_TEMPERATURE")),
+        streaming=True,
+        timeout=30,
+        max_retries=2,
+    )
     prompt = ChatPromptTemplate.from_template("用3句话描述{topic}")
     chain = prompt | llm | StrOutputParser()
 
@@ -112,9 +136,9 @@ def main():
     print("📚 流式输出演示")
     print("=" * 60)
 
-    demo_basic_streaming()
+    # demo_basic_streaming()
     demo_streaming_with_callback()
-    demo_invoke_vs_stream()
+    # demo_invoke_vs_stream()
 
     print("\n✅ 流式输出演示完成！")
 

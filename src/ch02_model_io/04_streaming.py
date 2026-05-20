@@ -12,6 +12,8 @@
 
 import sys
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -22,7 +24,7 @@ load_dotenv()
 
 def demo_basic_streaming():
     """演示基础流式输出"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 流式输出的原理
@@ -58,7 +60,7 @@ def demo_basic_streaming():
 
 def demo_streaming_with_callback():
     """演示流式输出的底层细节"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 直接对 LLM 使用 stream()
@@ -78,7 +80,7 @@ def demo_streaming_with_callback():
 
 def demo_invoke_vs_stream():
     """对比 invoke 和 stream 的区别"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     prompt = ChatPromptTemplate.from_template("用3句话描述{topic}")
     chain = prompt | llm | StrOutputParser()
 

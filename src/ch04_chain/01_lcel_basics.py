@@ -10,6 +10,8 @@
     uv run python src/ch04_chain/01_lcel_basics.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -27,7 +29,7 @@ def demo_basic_pipe():
     # prompt | model | parser 是 LCEL 的经典三段式
     # 数据流：dict → 消息列表 → AIMessage → str
     prompt = ChatPromptTemplate.from_template("用一句话介绍{topic}")
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     parser = StrOutputParser()
 
     # 使用 | 管道符串联
@@ -49,7 +51,7 @@ def demo_basic_pipe():
 
 def demo_runnable_passthrough():
     """演示 RunnablePassthrough — 传递原始输入"""
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # RunnablePassthrough：原样传递输入
@@ -81,7 +83,7 @@ def demo_runnable_passthrough():
 
 def demo_runnable_parallel():
     """演示 RunnableParallel — 并行执行多个 Chain"""
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     parser = StrOutputParser()
 
     # ========================================
@@ -126,7 +128,7 @@ def demo_runnable_parallel():
 def demo_chain_methods():
     """演示 Chain 的多种调用方式"""
     prompt = ChatPromptTemplate.from_template("用三个词描述{topic}")
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     chain = prompt | model | StrOutputParser()
 
     # ========================================

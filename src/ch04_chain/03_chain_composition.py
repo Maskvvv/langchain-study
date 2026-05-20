@@ -11,6 +11,8 @@
     uv run python src/ch04_chain/03_chain_composition.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -32,8 +34,8 @@ def demo_fallback():
     # 2. 如果主模型抛出异常，自动尝试第一个备用模型
     # 3. 如果第一个备用也失败，尝试第二个，以此类推
 
-    primary_model = ChatOpenAI(model="kimi-k2.6", temperature=1)
-    fallback_model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    primary_model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
+    fallback_model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     prompt = ChatPromptTemplate.from_template("用一句话介绍{topic}")
     parser = StrOutputParser()
@@ -60,7 +62,7 @@ def demo_retry():
     # - stop_after_attempt：最多重试次数
     # - retry_if_exception_type：只在特定异常时重试
 
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     prompt = ChatPromptTemplate.from_template("用一句话介绍{topic}")
     chain = prompt | model | StrOutputParser()
 
@@ -75,7 +77,7 @@ def demo_retry():
 
 def demo_nested_chain():
     """演示链的嵌套组合"""
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 场景：先生成主题，再基于主题生成内容
@@ -114,7 +116,7 @@ def demo_nested_chain():
 
 def demo_map_chain():
     """演示链的 map 操作 — 对列表逐一执行"""
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     prompt = ChatPromptTemplate.from_template("用一句话介绍{topic}")
     chain = prompt | model | StrOutputParser()
 

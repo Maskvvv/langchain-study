@@ -10,6 +10,8 @@
     uv run python src/ch05_memory/02_summary_memory.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
@@ -20,7 +22,7 @@ load_dotenv()
 
 def demo_summary_memory():
     """演示摘要记忆的实现"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 摘要记忆的原理
@@ -88,7 +90,7 @@ def demo_summary_memory():
 
 def demo_incremental_summary():
     """演示增量摘要 — 随着对话进行不断更新摘要"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 增量摘要的原理

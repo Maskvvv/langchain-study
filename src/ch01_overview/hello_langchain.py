@@ -35,8 +35,8 @@ def main():
     #   - api_key: 从环境变量自动读取 OPENAI_API_KEY
     #   - base_url: 从环境变量自动读取 OPENAI_API_BASE（如果设置了的话）
     llm = ChatOpenAI(
-        model="kimi-k2.6",
-        temperature=1,
+        model=os.getenv("LLM_MODEL"),
+        temperature=float(os.getenv("LLM_TEMPERATURE")),
     )
 
     # ========================================

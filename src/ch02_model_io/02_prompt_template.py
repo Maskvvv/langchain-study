@@ -11,6 +11,8 @@
     uv run python src/ch02_model_io/02_prompt_template.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.prompts import (
     ChatPromptTemplate,
@@ -50,7 +52,7 @@ def demo_prompt_template():
 
 def demo_chat_prompt_template():
     """演示 ChatPromptTemplate（聊天消息模板）"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 方式一：from_messages() — 最常用的创建方式
@@ -90,7 +92,7 @@ def demo_chat_prompt_template():
 
 def demo_messages_placeholder():
     """演示 MessagesPlaceholder（消息占位符）"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # MessagesPlaceholder：在模板中预留消息位置
@@ -134,7 +136,7 @@ def demo_messages_placeholder():
 
 def demo_lcel_chain():
     """演示使用 LCEL 将 Prompt + Model 串联"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # LCEL（LangChain Expression Language）

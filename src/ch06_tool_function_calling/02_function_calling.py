@@ -13,6 +13,8 @@
 
 import json
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
@@ -49,7 +51,7 @@ def demo_bind_tools():
         except Exception as e:
             return f"计算错误: {e}"
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # 绑定工具
     llm_with_tools = llm.bind_tools([search_weather, calculate])
@@ -112,7 +114,7 @@ def demo_full_tool_calling_flow():
         "calculate": calculate,
     }
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     llm_with_tools = llm.bind_tools([search_weather, calculate])
 
     # 第一步：用户提问
@@ -154,7 +156,7 @@ def demo_full_tool_calling_flow():
 
 def demo_structured_output():
     """演示结构化输出 — with_structured_output()"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # with_structured_output()

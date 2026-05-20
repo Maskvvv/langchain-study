@@ -12,6 +12,8 @@
 
 from typing import List
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
@@ -22,7 +24,7 @@ load_dotenv()
 
 def demo_entity_memory():
     """演示带实体提取的记忆"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 实体记忆的原理
@@ -78,7 +80,7 @@ def demo_entity_memory():
 
 def demo_hybrid_memory():
     """演示混合记忆策略（摘要 + 滑动窗口）"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 混合记忆策略

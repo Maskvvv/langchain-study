@@ -10,6 +10,8 @@
     uv run python src/ch04_chain/02_runnable_protocol.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
@@ -46,7 +48,7 @@ def demo_custom_runnable_lambda():
     # ========================================
     # 在 LCEL 管道中使用 RunnableLambda
     # ========================================
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     prompt = ChatPromptTemplate.from_template("用一句话介绍{topic}")
 
     # 在 model 和 parser 之间插入自定义处理逻辑
@@ -72,7 +74,7 @@ def demo_runnable_generator():
     # 当 Chain 使用 stream() 时，每个 chunk 会流经 Generator
     # 这允许我们实时处理流式数据
 
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1.7)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     prompt = ChatPromptTemplate.from_template("写一首关于{topic}的诗")
     chain = prompt | model | StrOutputParser()
 
@@ -95,7 +97,7 @@ def demo_runnable_generator():
 def demo_input_output_schema():
     """演示 Runnable 的输入输出类型追踪"""
     prompt = ChatPromptTemplate.from_template("介绍{topic}")
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     chain = prompt | model | StrOutputParser()
 
     # ========================================
@@ -112,7 +114,7 @@ def demo_input_output_schema():
 
 def demo_complex_chain():
     """演示复杂 Chain 的组合"""
-    model = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 场景：对同一个主题，生成不同风格的内容

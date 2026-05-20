@@ -12,6 +12,8 @@
 
 from typing import Annotated
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_core.tools import tool
@@ -54,7 +56,7 @@ def demo_interrupt_before():
     tools = [send_email, search_info]
     tools_map = {t.name: t for t in tools}
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     llm_with_tools = llm.bind_tools(tools)
 
     def agent_node(state: State) -> dict:
@@ -165,7 +167,7 @@ def demo_approval_workflow():
         action_type: str
         approved: bool
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     def classify_action(state: State) -> dict:
         """分类用户请求的操作类型"""

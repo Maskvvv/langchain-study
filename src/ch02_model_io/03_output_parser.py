@@ -13,6 +13,8 @@
 
 from typing import List
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.output_parsers import (
     CommaSeparatedListOutputParser,
@@ -28,7 +30,7 @@ load_dotenv()
 
 def demo_str_output_parser():
     """演示 StrOutputParser — 最简单的解析器"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # StrOutputParser：直接提取 AIMessage 的 content 字段
@@ -48,7 +50,7 @@ def demo_str_output_parser():
 
 def demo_list_output_parser():
     """演示 CommaSeparatedListOutputParser — 列表输出"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # CommaSeparatedListOutputParser
@@ -76,7 +78,7 @@ def demo_list_output_parser():
 
 def demo_json_output_parser():
     """演示 JsonOutputParser — JSON 输出"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # JsonOutputParser
@@ -107,7 +109,7 @@ def demo_json_output_parser():
 
 def demo_pydantic_output_parser():
     """演示 PydanticOutputParser — Pydantic 模型输出（最推荐）"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # PydanticOutputParser

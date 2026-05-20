@@ -13,6 +13,8 @@
 
 from typing import Annotated
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
@@ -72,7 +74,7 @@ def demo_basic_stategraph():
     # ========================================
     # 第三步：创建 LLM 并绑定工具
     # ========================================
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     llm_with_tools = llm.bind_tools(tools)
 
     # ========================================

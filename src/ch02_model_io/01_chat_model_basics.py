@@ -11,6 +11,8 @@
     uv run python src/ch02_model_io/01_chat_model_basics.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -20,7 +22,7 @@ load_dotenv()
 
 def demo_basic_invocation():
     """演示最基本的模型调用"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # 最简单的调用：直接传入字符串
     # LangChain 会自动将其包装为 HumanMessage
@@ -30,7 +32,7 @@ def demo_basic_invocation():
 
 def demo_message_types():
     """演示不同消息类型的使用"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # SystemMessage：设定 AI 的角色和行为规则
@@ -72,7 +74,7 @@ def demo_message_types():
 
 def demo_batch_invocation():
     """演示批量调用"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # batch()：一次性发送多个请求
@@ -94,7 +96,7 @@ def demo_batch_invocation():
 
 def demo_response_metadata():
     """演示响应元数据的获取"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     response = llm.invoke("你好")
 

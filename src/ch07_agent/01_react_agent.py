@@ -12,6 +12,8 @@
 
 from datetime import datetime
 
+import os
+
 from dotenv import load_dotenv
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -89,7 +91,7 @@ def demo_react_agent():
     # ========================================
     # create_tool_calling_agent() 创建一个基于 Function Calling 的 Agent
     # 它会自动将工具定义绑定到 LLM，并处理工具调用的解析
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     agent = create_tool_calling_agent(llm, tools, prompt)
 
     # ========================================
@@ -150,7 +152,7 @@ def demo_agent_with_memory():
         return weather_data.get(city, f"暂无{city}的天气信息")
 
     tools = [search_weather]
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     prompt = ChatPromptTemplate.from_messages(
         [

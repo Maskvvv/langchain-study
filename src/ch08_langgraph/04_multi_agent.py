@@ -11,6 +11,8 @@
 
 from typing import Annotated, Literal
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
@@ -52,7 +54,7 @@ def demo_supervisor_pattern():
         messages: Annotated[list[BaseMessage], add_messages]
         next_agent: str
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # Supervisor 节点

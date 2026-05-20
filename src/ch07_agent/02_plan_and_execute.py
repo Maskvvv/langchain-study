@@ -11,6 +11,8 @@
 
 from typing import List
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
@@ -65,7 +67,7 @@ def demo_plan_and_execute():
     tools = [search_weather, search_attractions]
     tools_map = {t.name: t for t in tools}
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 阶段一：Planning（规划）

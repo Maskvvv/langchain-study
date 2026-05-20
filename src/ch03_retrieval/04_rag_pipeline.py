@@ -84,7 +84,7 @@ def create_rag_chain():
     # ========================================
     # 第五步：组装 RAG Chain
     # ========================================
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # 定义格式化函数：将检索到的文档列表拼接为字符串
     def format_docs(docs):

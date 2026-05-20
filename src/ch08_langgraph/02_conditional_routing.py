@@ -12,6 +12,8 @@
 
 from typing import Annotated, Literal
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
@@ -37,7 +39,7 @@ def demo_intent_routing():
         messages: Annotated[list[BaseMessage], add_messages]
         intent: str
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 意图识别节点
@@ -174,7 +176,7 @@ def demo_multi_step_routing():
         needs_review: bool
         approved: bool
 
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     def generate_response(state: State) -> dict:
         """生成回复"""

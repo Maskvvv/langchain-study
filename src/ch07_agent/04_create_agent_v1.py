@@ -12,6 +12,8 @@
     uv run python src/ch07_agent/04_create_agent_v1.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.tools import tool
@@ -46,7 +48,7 @@ def build_agent():
 
     这里只构建 Agent，不主动调用模型，方便在没有网络时也能查看结构。
     """
-    model = ChatOpenAI(model="kimi-k2.6", temperature=0.2)
+    model = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     return create_agent(
         model=model,

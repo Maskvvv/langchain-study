@@ -10,6 +10,8 @@
     uv run python src/ch05_memory/01_conversation_memory.py
 """
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
@@ -23,7 +25,7 @@ load_dotenv()
 
 def demo_manual_history():
     """演示手动管理消息历史（最基础的方式）"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 手动管理消息历史
@@ -62,7 +64,7 @@ def demo_manual_history():
 
 def demo_sliding_window():
     """演示滑动窗口记忆"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # 滑动窗口记忆
@@ -104,7 +106,7 @@ def demo_sliding_window():
 
 def demo_runnable_with_history():
     """演示 RunnableWithMessageHistory — 自动管理历史"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     # ========================================
     # RunnableWithMessageHistory

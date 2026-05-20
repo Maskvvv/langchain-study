@@ -37,7 +37,7 @@ def main() -> None:
             ("human", "用三句话解释什么是 {topic}。"),
         ]
     )
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=0.3)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     chain = prompt | llm | StrOutputParser()
 
     result = chain.invoke({"topic": "LangSmith tracing"})

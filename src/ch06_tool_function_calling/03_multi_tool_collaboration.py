@@ -13,6 +13,8 @@
 import json
 from datetime import datetime
 
+import os
+
 from dotenv import load_dotenv
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.prompts import ChatPromptTemplate
@@ -77,7 +79,7 @@ def demo_multi_tool_assistant():
     tools_map = {t.name: t for t in tools}
 
     # 绑定工具到模型
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
     llm_with_tools = llm.bind_tools(tools)
 
     # ========================================
@@ -146,7 +148,7 @@ def demo_multi_tool_assistant():
 
 def demo_tool_error_handling():
     """演示工具调用的错误处理"""
-    llm = ChatOpenAI(model="kimi-k2.6", temperature=1)
+    llm = ChatOpenAI(model=os.getenv("LLM_MODEL"), temperature=float(os.getenv("LLM_TEMPERATURE")))
 
     @tool
     def divide(a: float, b: float) -> str:
